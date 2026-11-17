@@ -1,3 +1,4 @@
+
 name: Build BlackBar APK
 
 on:
@@ -21,12 +22,15 @@ jobs:
         with:
           gradle-version: "8.9"
 
+      - name: Unpack project
+        run: unzip -o BlackBarAndroid_Project_with_APK_Build.zip
+
       - name: Build APK
-        run: gradle --no-daemon :app:assembleDebug
+        run: gradle --no-daemon -p BlackBarAndroid :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: BlackBar-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
-          
+          path: BlackBarAndroid/app/build/outputs/apk/debug/app-debug.apk
+
