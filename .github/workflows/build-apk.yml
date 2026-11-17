@@ -7,9 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Unpack Android project
+        run: unzip -o BlackBarAndroid_v2_Source.zip -d .
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -22,15 +26,12 @@ jobs:
         with:
           gradle-version: "8.9"
 
-      - name: Unpack project
-        run: unzip -o BlackBarAndroid_Project_with_APK_Build.zip
-
       - name: Build APK
-        run: gradle --no-daemon -p BlackBarAndroid :app:assembleDebug
+        run: gradle --no-daemon :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: BlackBar-APK
-          path: BlackBarAndroid/app/build/outputs/apk/debug/app-debug.apk
-
+          path: app/build/outputs/apk/debug/app-debug.apk
+          
